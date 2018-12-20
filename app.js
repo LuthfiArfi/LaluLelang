@@ -4,8 +4,9 @@ const index = require('./routes/indexRoutes')
 const user = require('./routes/userRoutes')
 const product = require('./routes/productRoutes')
 const session = require('express-session')
+const mwAccess = require('./helpers/accessMenu')
 
-let port = 3000
+const port = process.env.PORT || 3000 ;
 
 app.use( '/public', express.static( "public" ));
 app.use( '/assets',express.static( "assets" ));
@@ -15,14 +16,7 @@ app.use(session({
 }))
 app.use(express.urlencoded( { extended : false } ))
 
-app.use('/user', function( req, res, next ) {
-  if ( req.session ) {
-    next()
-  } else {
-    res.redirect('/login')
-  }
-}
-, user);
+app.use('/user', mwAccess, user);
 app.use('/product', product);
 app.use('/', index);
 

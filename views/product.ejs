@@ -49,7 +49,11 @@
           <td></td>
           <td></td>
           <td>
+            <% if (new Date() < new Date(dataProduct.end_time)){%>
             <button type="submit">Submit Bid</button>
+            <% } else {%>
+            Lelang is already over
+            <% } %>
           </td>
         </tr>
       </form>

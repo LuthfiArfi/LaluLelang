@@ -5,6 +5,18 @@ const bcrypt = require('bcryptjs')
 
 router.get('/', function ( req, res ) {
   res.send('INI HOME EXPRESS')
+  // let endBid = []
+  // Model.Product.findAll({
+  //   include : [{
+  //     model : Model.Bid
+  //   }]
+  // })
+  // .then( data => {
+  //   res.send(data)
+  // })
+  // .catch( err => {
+  //   res.send(err)
+  // })
 })
 
 router.get('/register', function ( req, res) {
@@ -28,10 +40,12 @@ router.post('/register', function ( req, res ){
 // ===========================================
 
 router.get('/login', function ( req, res ) {
-  if (!req.session.user){
-    res.render('login.ejs')
-  } else {
+  if (req.query.err) {
+    res.render('login.ejs', { err : req.query.err })
+  } else if (req.session.user) {
     res.send('anda sudah login')
+  } else {
+    res.render('login.ejs', { err : null})
   }
 })
 
@@ -68,8 +82,8 @@ router.get('/session' , function ( req, res ) {
   res.send(req.session)
 })
 
-router.get('/count', function( req, res ) {
-  res.render('countdown.ejs')
-})
+// router.get('/count', function( req, res ) {
+//   res.render('countdown.ejs')
+// })
 
 module.exports = router

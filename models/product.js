@@ -1,17 +1,35 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+  const Op = sequelize.Op
   const Product = sequelize.define('Product', {
     name: DataTypes.STRING,
     early_bid: DataTypes.INTEGER,
     end_bid: DataTypes.INTEGER,
     end_time: DataTypes.DATE,
-    img: DataTypes.STRING
+    img: DataTypes.STRING,
+    isExpired: {
+      type : DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    UserId: DataTypes.INTEGER
   }, {});
   Product.associate = function(models) {
     // associations can be defined here
-    Product.belongsToMany(models.User, {
-      through : models.Bid
-    })
+    Product.belongsTo(models.User)
+    Product.belongsToMany(models.User, { through : models.Bid })
+
+    Product.allNotExpired = function() {
+      return new Promise( (resolve, reject) => {
+        Product.findAll( { where: { isExpired: 0}})
+        .then( data => {
+          resolve(data)
+        })
+        .catch( err => {
+          reject(err)
+        })
+      })
+    }
+
   };
 
   Product.prototype.fixDate = function() {

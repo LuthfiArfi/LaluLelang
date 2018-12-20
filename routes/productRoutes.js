@@ -23,6 +23,29 @@ router.get('/', (req,res) => {
   })
 })
 
+//////////////////////////////////////////////////////////////////// BELOM
+router.get('/expired', function(req, res) {
+  let productId = []
+  let userId = []
+  let endBid = []
+  Model.Product.allNotExpired()
+    .then( data => {
+      data.forEach( a => {
+        if (new Date() < new Date(a.end_time)){
+          arrId.push(a.id)
+        }
+      })
+      return Model.Bid.findAll({ where : { ProductId : 1}})
+      // Model.Product.update({ isExpired : 1 } , { where : { id : arrId } } )
+    })
+    .then( updated => {
+      res.send(updated)
+    })
+    .catch( err => {
+      res.send(err)
+    })
+})
+//////////////////////////////////////////////////////////////////////
 
 //=========================add product============
 router.get('/add', function(req,res){
@@ -120,30 +143,25 @@ router.get('/:id', (req,res) =>{
 })
 
 router.post('/:id', (req, res, next) => {
-  console.log('masukk here');
-  console.log(req.session);
-  if (req.session){
+  if ( req.session.user ){
     next()
   } else {
-    console.log('masuk');
     res.redirect('/login')
   }
-},(req,res) => {
+}, (req,res) => {
   let dataCreate = null;
   let obj = {
-    UserId : req.session.id, //require id session
+    UserId : req.session.id,// req.session.id, //require id session
     ProductId : req.params.id,
     Bid : req.body.bid
   }
-  // res.send(req.params.id)
   Model.Bid.create(obj)
   .then(data => {
     dataCreate = data;
     // res.send(dataCreate)
-    console.log('in herereere');
     return Model.Product.findOne({
       where : {
-        id : paramsId
+        id : req.params.id
       }
     })
   })
@@ -158,26 +176,26 @@ router.post('/:id', (req, res, next) => {
         img : dataProduct.img,
         updatedAt : new Date()
       }
-      // res.send(updateBid)
-      Model.Product.update(updateBid,{
-          where : {
-            id : paramsId
-          }
-        })
-      .then(data =>{
-        res.redirect(`/product/${paramsId}`);
+
+      return Model.Product.update(updateBid,{
+        where : {
+          id : req.params.id
+        }
       })
-      .catch(err =>{
-        throw new Error;
-      })
+    } else {
+      return false
     }
-    else {
-      res.redirect(`/product/${paramsId}`)
+  })
+  .then( updated => {
+    console.log('================');
+    if (updated) {
+      res.redirect(`/product/${req.params.id}`);
+    } else {
+      res.send('harga bid kurang')
     }
-    // res.send(dataProduct)
   })
   .catch(err =>{
-    res.send('error');
+    res.send(err);
   })
 })
 
