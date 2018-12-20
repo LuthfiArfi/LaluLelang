@@ -36,7 +36,7 @@ router.get('/login', function ( req, res ) {
 })
 
 router.post('/login', function ( req, res ) {
-  
+
   Model.User.findOne( { where : { email : req.body.email } } )
     .then( found => {
       if (found) {
@@ -44,6 +44,7 @@ router.post('/login', function ( req, res ) {
         let check = bcrypt.compareSync(req.body.password, found.password)
         if (check) {
           req.session.user = {
+            id : found.id,
             email : req.body.email
           }
           res.send('login berhasil')
@@ -56,14 +57,19 @@ router.post('/login', function ( req, res ) {
     })
 })
 
-router.get('/session' , function ( req, res ) { 
-  if (req.session.user) {
-    res.send('user sedang masuk')
-  } else {
+router.get('/session' , function ( req, res ) {
+  // if (req.session.user) {
+  //   res.send('user sedang masuk')
+  // } else {
+  //
+  //   res.send('user belom login')
+  // }
 
-    res.send('user belom login')
-  }
+  res.send(req.session)
+})
 
+router.get('/count', function( req, res ) {
+  res.render('countdown.ejs')
 })
 
 module.exports = router

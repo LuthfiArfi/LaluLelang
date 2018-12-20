@@ -7,7 +7,8 @@ const session = require('express-session')
 
 let port = 3000
 
-app.use( 'static',express.static( "views/img" ));
+app.use( '/public', express.static( "public" ));
+app.use( '/assets',express.static( "assets" ));
 app.set('view engine', 'ejs')
 app.use(session({
   secret: 'lelanglelang'
