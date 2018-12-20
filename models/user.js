@@ -28,8 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Product, {
       through : models.Bid
     })
-    User.belongsToMany(User, { as : "Seller", through : models.Transaction})
-    User.belongsToMany(User, { as : "Buyer", through : models.Transaction})
+    User.belongsToMany(User, { as : 'Selling', through : models.Transaction, foreignKey: 'Seller'})
+    User.belongsToMany(User, { as : 'Buying', through : models.Transaction, foreignKey: 'Buyer'})
 
   };
 
