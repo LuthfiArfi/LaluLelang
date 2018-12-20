@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Product, {
       through : models.Bid
     })
+    User.belongsToMany(User, { as : 'Selling', through : models.Transaction, foreignKey: 'Seller'})
+    User.belongsToMany(User, { as : 'Buying', through : models.Transaction, foreignKey: 'Buyer'})
+
   };
 
   User.beforeCreate((user) => {
