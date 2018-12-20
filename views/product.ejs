@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1 align="center"><%= title%></h1>
+    <img src="<%= dataProduct.img%>" alt="">
+    <table align="center">
+        <tr>
+          <td colspan="3">
+
+          </td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td>:</td>
+          <td><%= dataProduct.name%></td>
+        </tr>
+        <tr>
+          <td>Highest Bid</td>
+          <td>:</td>
+          <td><%= dataProduct.end_bid%></td>
+        </tr>
+        <tr>
+          <td>End Time</td>
+          <td>:</td>
+          <td><%= dataProduct.end_time%></td>
+        </tr>
+      <form action="/product/<%= dataProduct.id%>" method="post">
+        <tr>
+          <td>Enter Bid</td>
+          <td>:</td>
+          <td>
+            <input type="text" name="bid" value="">
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>
+            <button type="submit">Submit Bid</button>
+          </td>
+        </tr>
+      </form>
+    </table>
+  </body>
+</html>
