@@ -35,7 +35,7 @@ router.get('/:id', (req,res) =>{
   })
 })
 
-router.post('/:id', (req,res) =>{
+router.post('/:id',(req,res) =>{
   let paramsId = req.params.id;
   let dataCreate = null;
   let obj = {
