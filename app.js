@@ -14,12 +14,18 @@ app.use(session({
 }))
 app.use(express.urlencoded( { extended : false } ))
 
-app.use('/user', user);
+app.use('/user', function( req, res, next ) {
+  if ( req.session ) {
+    next()
+  } else {
+    res.redirect('/login')
+  }
+}
+, user);
 app.use('/product', product);
 app.use('/', index);
-
-
 
 app.listen(port, function () {
   console.log('this is listening to port', port)
 })
+
