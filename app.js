@@ -18,8 +18,7 @@ app.use('/user', user);
 app.use('/product', product);
 app.use('/', index);
 
-
-
 app.listen(port, function () {
   console.log('this is listening to port', port)
 })
+
