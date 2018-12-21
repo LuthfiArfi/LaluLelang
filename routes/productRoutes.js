@@ -25,21 +25,33 @@ router.get('/', (req,res) => {
 
 //////////////////////////////////////////////////////////////////// BELOM
 router.get('/expired', function(req, res) {
-  let productId = []
-  let userId = []
-  let endBid = []
+  let productId = null //product id
+  let endBid = null
+  let buyerId = null
+  let sellerId = null
   Model.Product.allNotExpired()
     .then( data => {
-      data.forEach( a => {
-        if (new Date() < new Date(a.end_time)){
-          arrId.push(a.id)
+      for (let i = 0 ; i < data.length ; i++){
+        if (new Date() < new Date(data[i].end_time)){
+          productId = data[i].id
+          sellerId = data[i].UserId
+          console.log(sellerId);
+          endBid = data[i].end_bid
+          console.log(endBid);
+          i = data.length
         }
-      })
-      return Model.Bid.findAll({ where : { ProductId : 1}})
-      // Model.Product.update({ isExpired : 1 } , { where : { id : arrId } } )
+      }
+      // return Model.Bid.findAll({ where : { ProductId : 1}})
+      return Model.Product.update({ isExpired : 1 } , { where : { id : productId } } )
     })
-    .then( updated => {
-      res.send(updated)
+    .then( () => {
+      // res.send(updated)
+      res.send('masuk')
+      return Model.Bid.findOne( { where : { ProductId : productId, end_bid : endBid } })
+    })
+    .then( bid => {
+      buyerId =  bid.UserId
+      console.log('masukhere')
     })
     .catch( err => {
       res.send(err)
