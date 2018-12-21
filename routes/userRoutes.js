@@ -10,7 +10,7 @@ router.get('/transaction', function( req, res ) {
   res.render('transaction.ejs')
 })
 
-router.post('/transaction', function( req, res ) {
+router.post('/transaction', function( req, res ) { // create transaction manual
   Model.Transaction.create({
     Seller : req.body.SellerId,
     ProductId : req.body.ProductId,
@@ -23,30 +23,32 @@ router.post('/transaction', function( req, res ) {
     })
 })
 
-router.get('/buy/:id', redirect, function( req, res ) {
-  Model.User.findAll({
+router.get('/buy', function( req, res ) {
+  Model.User.findOne({
     include : [{
       model : Model.User, as : "Buying"
     }] ,
-    where : { id : req.params.id}
+    where : { id : req.session.user.id}
   })
     .then( allData =>{
-      res.send(allData)
+      // res.send(allData)
+      res.render('buying.ejs', { data : allData})
     })
     .catch( err => {
       res.send(err)
     })
 })
 
-router.get('/sell/:id', redirect, function( req, res ) {
-  Model.User.findAll({
+router.get('/sell', function( req, res ) {
+  Model.User.findOne({
     include : [{
       model : Model.User, as : "Selling"
     }] ,
-    where : { id : req.params.id}
+    where : { id : req.session.user.id}
   })
     .then( allData =>{
-      res.send(allData)
+      // res.send(allData)
+      res.render('selling.ejs', { data : allData})
     })
     .catch( err => {
       res.send(err)
