@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title><%= dataProduct.name%></title>
+  </head>
+  <body>
+    <script src="/assets/jquery.js"></script>
+    <script src="/assets/jquery.countdown-2.2.0/jquery.countdown.js"></script>
+
+    <h1 align="center"><%= title%></h1>
+    <img src="<%= dataProduct.img%>" alt="">
+    <table align="center">
+        <tr>
+          <td colspan="3">
+          </td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td>:</td>
+          <td><%= dataProduct.name%></td>
+        </tr>
+        <tr>
+          <td>Highest Bid</td>
+          <td>:</td>
+          <td><%= dataProduct.end_bid%></td>
+        </tr>
+        <tr>
+          <td>Countdown</td>
+          <td>:</td>
+          <td>
+            <div data-countdown="<%= dataProduct.end_time%>"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>End Time</td>
+          <td>:</td>
+          <td><%= dataProduct.end_time%></td>
+        </tr>
+      <form action="/product/<%= dataProduct.id%>" method="post">
+        <tr>
+          <td>Enter Bid</td>
+          <td>:</td>
+          <td>
+            <input type="text" name="bid" value="">
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>
+            <% if (new Date() < new Date(dataProduct.end_time)){%>
+            <button type="submit">Submit Bid</button>
+            <% } else {%>
+            Lelang is already over
+            <% } %>
+          </td>
+        </tr>
+      </form>
+    </table>
+    <script>
+      $('[data-countdown]').each(function() {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function(event) {
+          $this.html(event.strftime('%D days %H:%M:%S'));
+        })
+        .on('finish.countdown', function(event){
+          $(this).html("EXPIRES")
+        })
+      });
+    </script>
+  </body>
+</html>

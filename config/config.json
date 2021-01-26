@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "lalu-lelang",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "dipshsvzzeprbo",
+    "password": "cad845eae0a3bd3f35bcddb335f450ed0ef598c62a16eddedd7b3eb34e85867f",
+    "database": "d474ohf0dlr2jq",
+    "host": "ec2-184-73-181-132.compute-1.amazonaws.com",
+    "dialect": "postgres"
+  }
+}

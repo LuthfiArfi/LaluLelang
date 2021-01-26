@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>edit</title>
+  </head>
+  <body>
+    <h1 align="center"> edit product</h1>
+    <table align="center">
+      <form method="POST">
+        <tr>
+          <th> name </th>
+          <td> : </td>
+          <td><input type="text" name="name" value="<%= data.name%>"></td>
+        </tr>
+        <tr>
+          <th> early bid</th>
+          <td> : </td>
+          <td><input type="text" name="early_bid" value="<%= data.early_bid%>"></td>
+        </tr>
+        <tr>
+          <th> end date </th>
+          <td> : </td>
+          <td>
+            <input type="date" name="end_date" value="">
+          </td>
+        </tr>
+        <tr>
+          <th> end time </th>
+          <td> : </td>
+          <td>
+            <input type="time" name="end_time" value="">
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>
+            <button type="submit">submit</button>
+          </td>
+        </form>
+        </tr>
+    </table>
+
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <script src="/assets/jquery.js"></script>
+  <script src="/assets/jquery.countdown-2.2.0/jquery.countdown.js"></script>
+  <body>
+    <h1 align="center"> product list</h1>
+    <table align="center">
+      <tr>
+        <th>Name</th>
+        <th>Early Bid</th>
+        <th>End Bid</th>
+        <th>Countdown</th>
+        <th>option</th>
+      </tr>
+      <% dataProduct.forEach(item =>{ %>
+      <tr>
+        <td>
+          <a href="/product/<%= item.id%>">
+          <%= item.name%>
+          </a>
+        </td>
+        <td><%= item.early_bid%></td>
+        <td><%= item.end_bid%></td>
+        <td>
+            <div data-countdown="<%= item.end_time%>"></div>
+        </td>
+        <td>
+          <a href="/product/edit/<%= item.id%>">
+            <button type="button" name="button">edit</button>
+          </a>|
+          <a href="/product/delete/<%= item.id%>">
+            <button type="button" name="button">delete</button>
+          </a>
+        </td>
+      </tr>
+      <% })%>
+      <tr>
+        <td align="center" colspan="5">
+          <a href="/product/add" align="center">
+            <button type="button" name="button" align="center">
+              Add Product
+            </button>
+          </a>
+        </td>
+      </tr>
+    </table>
+    <script>
+      $('[data-countdown]').each(function() {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function(event) {
+          $this.html(event.strftime('%D days %H:%M:%S'));
+        })
+        .on('finish.countdown', function(event){
+          $(this).html("EXPIRES")
+        })
+      });
+    </script>
+  </body>
+</html>
